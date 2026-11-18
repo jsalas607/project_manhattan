@@ -58,7 +58,7 @@ class _AtenderMesaScreenState extends State<AtenderMesaScreen> {
 
     // Si ya venía con ítems en la orden, ir directo al detalle de la mesa
     if (result.orden.isNotEmpty && mounted) {
-      Navigator.push(
+      await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (_) => MesaDetalleScreen(
@@ -69,6 +69,8 @@ class _AtenderMesaScreenState extends State<AtenderMesaScreen> {
           ),
         ),
       );
+      // Al volver, recargar: la mesa pudo cobrarse o eliminarse desde el detalle.
+      if (mounted) _load();
     }
   }
 
