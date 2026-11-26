@@ -295,7 +295,7 @@ class _CarteraScreenState extends State<CarteraScreen> {
                   const SizedBox(height: 16),
 
                   // Estadísticas del día
-                  if (_stats != null) _StatsCard(stats: _stats!),
+                  if (_stats != null) _StatsCard(stats: _stats!, turno: isAbierta),
                   const SizedBox(height: 16),
 
                   // Añadir gastos / pérdidas
@@ -383,8 +383,11 @@ class _PaymentCard extends StatelessWidget {
 }
 
 class _StatsCard extends StatelessWidget {
-  const _StatsCard({required this.stats});
+  const _StatsCard({required this.stats, required this.turno});
   final DailyStats stats;
+
+  /// Con la caja abierta cuenta desde que se abrió (el turno), no desde la medianoche.
+  final bool turno;
 
   @override
   Widget build(BuildContext context) {
@@ -398,7 +401,7 @@ class _StatsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Estadísticas del día', style: AppTypography.titleMedium),
+          Text(turno ? 'Estadísticas del turno' : 'Estadísticas del día', style: AppTypography.titleMedium),
           const SizedBox(height: 12),
           _StatRow('Órdenes creadas',            '${stats.ordenesCreadias}'),
           _StatRow('Dinero facturado',            _currencyFmt.format(stats.dineroFacturado)),
